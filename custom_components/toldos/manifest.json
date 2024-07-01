@@ -5,7 +5,7 @@
   "documentation": "https://github.com/habibi1969/toldos/README.md",
   "requirements": [],
   "dependencies": [],
-  "codeowners": ["@habibi1969"]
+  "codeowners": ["@habibi1969"],
   "config_flow": true,
   "homekit": {},
   "iot_class": "local_polling",
