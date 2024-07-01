@@ -1,0 +1,17 @@
+{
+  "domain": "toldos",
+  "name": "Toldos",
+  "version": "1.0",
+  "documentation": "https://github.com/habibi1969/toldos/README.md",
+  "requirements": [],
+  "dependencies": [],
+  "codeowners": ["@habibi1969"]
+  "config_flow": true,
+  "homekit": {},
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/habibi1969/toldos/issues",
+  "quality_scale": "internal",
+  "requirements": ["aiohttp", "tenacity"],
+  "ssdp": [],
+  "zeroconf": []
+}
