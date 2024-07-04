@@ -2,7 +2,7 @@
 import logging
 import aiohttp
 from homeassistant.config_entries import SOURCE_IMPORT
-"""from homeassistant.config_entries import ConfigEntry"""
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, ServiceCall
 from homeassistant.const import CONF_IP_ADDRESS
 
