@@ -10,7 +10,7 @@ DATA_SCHEMA = vol.Schema(
     {
         vol.Required(NAME, description={"suggested_value": "Toldo"}): str,
         vol.Required(CONF_IP_ADDRESS, description={"suggested_value": "IP toldo"}): str,
-        vol.Required(PORT, description={"value": "80"}): int,
+        vol.Required(PORT, description={"value": 80}): int,
     }
 )
 
