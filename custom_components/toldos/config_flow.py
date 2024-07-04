@@ -9,7 +9,7 @@ from .const import DOMAIN, NAME, CONF_IP_ADDRESS, PORT
 DATA_SCHEMA = vol.Schema(
     {
         vol.Required(NAME, description={"suggested_value": "Toldo"}): str,
-        vol.Required(CONF_IP_ADDRESS, description={"suggested_value": "IP toldo"}): str,
+        vol.Required(CONF_IP_ADDRESS, description={"suggested_value": "192.168.1."}): str,
         vol.Required(PORT, description={"suggested_value": 80}): int,
     }
 )
@@ -43,9 +43,9 @@ class ToldoConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             step_id="user", data_schema=DATA_SCHEMA
         )
         
-    async def async_step_import(self, import_info):
+    async def async_step_import(self, user_input):
         """Import entry from configuration.yaml."""
-        return await self.async_step_user(import_info)
+        return await self.async_step_user(user_input)
 
     def _async_get_options_flow(self, config_entry):
         return ToldoOptionsFlowHandler(config_entry=config_entry)
