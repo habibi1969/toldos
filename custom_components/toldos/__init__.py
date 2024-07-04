@@ -4,9 +4,11 @@ import aiohttp
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 
+_LOGGER = logging.getLogger(__name__)
+
 from .const import DOMAIN
 
-_LOGGER = logging.getLogger(__name__)
+PLATFORMS = ["sensor", "switch", "number"]
 
 async def async_setup(hass: HomeAssistant, config: dict):
     """Set up the integration using YAML."""
@@ -27,7 +29,14 @@ async def async_setup(hass: HomeAssistant, config: dict):
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Set up the integration using UI."""
     _LOGGER.info("Configurando Toldos desde una entrada de configuración")
-    hass.async_create_task(hass.config_entries.async_forward_entry_setup(entry, "sensor"))
+    
+    for platform in PLATFORMS:
+        await hass.config_entries.async_forward_entry_setup(entry, platform)
+
+    hass.data[DOMAIN]["ip_address"] = entry.data[CONF_IP_ADDRESS]
+    ip_address = entry.data[CONF_IP_ADDRESS]
+    
+    #hass.async_create_task(hass.config_entries.async_forward_entry_setup(entry, "sensor"))
     return True
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
