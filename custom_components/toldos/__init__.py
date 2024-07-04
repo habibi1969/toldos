@@ -10,7 +10,8 @@ _LOGGER = logging.getLogger(__name__)
 
 from .const import DOMAIN
 
-PLATFORMS = []    """["sensor", "switch", "number"]"""
+PLATFORMS = [""]
+"""["sensor", "switch", "number"]"""
 
 async def async_setup(hass: HomeAssistant, config: dict):
     """Set up the integration using YAML."""
