@@ -1,8 +1,10 @@
 """The toldos component."""
 import logging
 import aiohttp
-from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
+from homeassistant.config_entries import SOURCE_IMPORT
+"""from homeassistant.config_entries import ConfigEntry"""
+from homeassistant.core import HomeAssistant, ServiceCall
+from homeassistant.const import CONF_IP_ADDRESS
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -36,11 +38,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     hass.data[DOMAIN]["ip_address"] = entry.data[CONF_IP_ADDRESS]
     ip_address = entry.data[CONF_IP_ADDRESS]
     
-    #hass.async_create_task(hass.config_entries.async_forward_entry_setup(entry, "sensor"))
+    """hass.async_create_task(hass.config_entries.async_forward_entry_setup(entry, "sensor"))"""
     return True
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Unload a config entry."""
     _LOGGER.info("Descargando Toldos")
-    return await hass.config_entries.async_forward_entry_unload(entry, "sensor")
+    """return await hass.config_entries.async_forward_entry_unload(entry, "sensor")"""
+    return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
     
