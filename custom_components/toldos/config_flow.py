@@ -10,20 +10,28 @@ DATA_SCHEMA = vol.Schema(
     {
         vol.Required(NAME, description={"suggested_value": "Toldo"}): str,
         vol.Required(CONF_IP_ADDRESS, description={"suggested_value": "IP toldo"}): str,
-        vol.Required(PORT, description={"value": 80}): int,
+        vol.Required(PORT, description={"suggested_value": 80}): int,
     }
 )
 
 @config_entries.HANDLERS.register(DOMAIN)
 class ToldoConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow para Toldos."""
+    
+    VERSION = 1
+    
     _instance = None
 
     def __init__(self):
         if ToldoConfigFlow._instance is None:
             ToldoConfigFlow._instance = self
             
-    VERSION = 1
+    @classmethod
+    def async_get_options_flow(cls, config_entry):
+        if cls._instance is not None:
+            return cls._instance._async_get_options_flow(config_entry)
+        else:
+            return ToldoOptionsFlowHandler(config_entry=config_entry)
 
     async def async_step_user(self, user_input=None):
         if user_input is not None:
@@ -33,4 +41,33 @@ class ToldoConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         
         return self.async_show_form(
             step_id="user", data_schema=DATA_SCHEMA
+        )
+        
+    async def async_step_import(self, import_info):
+        """Import entry from configuration.yaml."""
+        return await self.async_step_user(import_info)
+
+    def _async_get_options_flow(self, config_entry):
+        return ToldoOptionsFlowHandler(config_entry=config_entry)
+
+class ToldoOptionsFlowHandler(config_entries.OptionsFlow):
+    def __init__(self, config_entry: config_entries.ConfigEntry):
+        self.config_entry = config_entry
+        self.current_ip = config_entry.options.get(CONF_IP_ADDRESS, "192.168.1.")
+        self.current_port = config_entry.options.get(PORT, 80)
+        self.current_name = f"{config_entry.options.get(NAME)} ({self.current_ip})"
+
+    async def async_step_init(self, user_input=None):
+        if user_input is not None:
+            return self.async_create_entry(title=self.current_name, data=user_input)
+
+        options_schema = vol.Schema(
+            {
+                vol.Required(CONF_IP_ADDRESS, description={"suggested_value": self.current_ip}): str,
+                vol.Required(PORT, description={"suggested_value": self.current_port}): vol.Coerce(int),
+            }
+        )
+
+        return self.async_show_form(
+            step_id="init", data_schema=options_schema
         )
