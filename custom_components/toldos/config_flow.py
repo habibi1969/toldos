@@ -8,9 +8,14 @@ from .const import DOMAIN, NAME, CONF_IP_ADDRESS, PORT
 
 DATA_SCHEMA = vol.Schema(
     {
-        vol.Required(NAME, description={"suggested_value": "Toldo"}): str,
-        vol.Required(CONF_IP_ADDRESS, description={"suggested_value": "192.168.1."}): str,
-        vol.Required(PORT, description={"suggested_value": 80}): int,
+        vol.Required(NAME, description={"suggested_value": "Toldo "}): str,
+    }
+)
+
+OPTIONS_SCHEMA = vol.Schema(
+    {
+        vol.Required(CONF_IP_ADDRESS, description={"suggested_value": self.current_ip}): str,
+        vol.Required(PORT, description={"suggested_value": self.current_port}): vol.Coerce(int),
     }
 )
 
@@ -59,15 +64,8 @@ class ToldoOptionsFlowHandler(config_entries.OptionsFlow):
 
     async def async_step_init(self, user_input=None):
         if user_input is not None:
-            return self.async_create_entry(title=self.current_name, data=user_input)
-
-        options_schema = vol.Schema(
-            {
-                vol.Required(CONF_IP_ADDRESS, description={"suggested_value": self.current_ip}): str,
-                vol.Required(PORT, description={"suggested_value": self.current_port}): vol.Coerce(int),
-            }
-        )
+            return self.async_create_entry(title=f"Toldo 1{self.current_name}<", data=user_input)
 
         return self.async_show_form(
-            step_id="init", data_schema=options_schema
+            step_id="init", data_schema=OPTIONS_SCHEMA
         )
