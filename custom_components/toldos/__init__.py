@@ -4,11 +4,11 @@ import aiohttp
 from homeassistant.config_entries import SOURCE_IMPORT
 """from homeassistant.config_entries import ConfigEntry"""
 from homeassistant.core import HomeAssistant, ServiceCall
-from homeassistant.const import CONF_NAME
+"""from homeassistant.const import CONF_NAME"""
 
 _LOGGER = logging.getLogger(__name__)
 
-from .const import DOMAIN
+from .const import DOMAIN, CONF_NAME
 
 PLATFORMS = ["sensor"]
 """["sensor", "switch", "number"]"""
