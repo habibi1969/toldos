@@ -4,11 +4,11 @@ import aiohttp
 from homeassistant.config_entries import SOURCE_IMPORT
 """from homeassistant.config_entries import ConfigEntry"""
 from homeassistant.core import HomeAssistant, ServiceCall
-from homeassistant.const import NAME
+from homeassistant.const import CONF_NAME
 
 _LOGGER = logging.getLogger(__name__)
 
-from .const import DOMAIN, NAME
+from .const import DOMAIN
 
 PLATFORMS = ["sensor"]
 """["sensor", "switch", "number"]"""
@@ -36,8 +36,8 @@ async def async_setup_entry(hass: HomeAssistant, entry):
     for platform in PLATFORMS:
         await hass.config_entries.async_forward_entry_setup(entry, platform)
 
-    hass.data[DOMAIN][NAME] = entry.data[NAME]
-    NAME = entry.data[NAME]
+    hass.data[DOMAIN][CONF_NAME] = entry.data[CONF_NAME]
+    CONF_NAME = entry.data[CONF_NAME]
     
     """hass.async_create_task(hass.config_entries.async_forward_entry_setup(entry, "sensor"))"""
     return True
