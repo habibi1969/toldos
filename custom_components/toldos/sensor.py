@@ -4,7 +4,7 @@ from homeassistant.helpers.entity import Entity
 _LOGGER = logging.getLogger(__name__)
 
 async def async_setup_entry(hass, config, async_add_entities, discovery_info=None):
-    async_add_entities([Toldo()])
+    async_add_entities([Toldo(config)])
 
 class Toldo(Entity):
     def __init__(self):
@@ -29,4 +29,4 @@ class Toldo(Entity):
 def obtener_datos_del_sensor():
     """Ejemplo de función para obtener datos del sensor."""
     # Simulación de datos de sensor
-    return 42
+    return 24

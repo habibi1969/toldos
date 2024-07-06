@@ -2,13 +2,13 @@ import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.core import callback
 from homeassistant.core import HomeAssistant
-from homeassistant.const import CONF_IP_ADDRESS
 
-from .const import DOMAIN, NAME, PORT
+from .const import DOMAIN, CONF_IP_ADDRESS, CONF_PORT
 
 DATA_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_IP_ADDRESS, description={"suggested_value": "192.168.1."}): str,
+        vol.Required(PORT, description={"suggested_value": 80}): int,
     }
 )
 
@@ -24,7 +24,6 @@ class ToldoConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         if ToldoConfigFlow._instance is None:
             ToldoConfigFlow._instance = self
             
-    @classmethod
     def async_get_options_flow(cls, config_entry):
         if cls._instance is not None:
             return cls._instance._async_get_options_flow(config_entry)
@@ -48,16 +47,16 @@ class ToldoConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     def _async_get_options_flow(self, config_entry):
         return ToldoOptionsFlowHandler(config_entry=config_entry)
 
+@config_entries.HANDLERS.register(DOMAIN)(ToldoConfigFlow)
 class ToldoOptionsFlowHandler(config_entries.OptionsFlow):
     def __init__(self, config_entry: config_entries.ConfigEntry):
         self.config_entry = config_entry
         self.current_ip = config_entry.options.get(CONF_IP_ADDRESS, "192.168.1.")
         self.current_port = config_entry.options.get(PORT, 80)
-        self.current_name = f"{config_entry.options.get(NAME)} ({self.current_ip})"
 
     async def async_step_init(self, user_input=None):
         if user_input is not None:
-            return self.async_create_entry(title=f"Toldo 1{self.current_name}<", data=user_input)
+            return self.async_create_entry(title="", data=user_input)
 
         OPTIONS_SCHEMA = vol.Schema(
             {

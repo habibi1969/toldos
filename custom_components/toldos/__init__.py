@@ -2,13 +2,13 @@
 import logging
 import aiohttp
 from homeassistant.config_entries import SOURCE_IMPORT
-"""from homeassistant.config_entries import ConfigEntry"""
+#from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, ServiceCall
-from homeassistant.const import CONF_IP_ADDRESS
+#from homeassistant.const import CONF_IP_ADDRESS
 
 _LOGGER = logging.getLogger(__name__)
 
-from .const import DOMAIN
+from .const import DOMAIN, CONF_IP_ADDRESS, CONF_PORT
 
 PLATFORMS = ["sensor"]
 """["sensor", "switch", "number"]"""
@@ -38,7 +38,23 @@ async def async_setup_entry(hass: HomeAssistant, entry):
 
     hass.data[DOMAIN]["ip_address"] = entry.data[CONF_IP_ADDRESS]
     ip_address = entry.data[CONF_IP_ADDRESS]
-    
+
+    # Obtener las opciones del config entry
+    scan_interval = entry.options.get("scan_interval", 10)
+    hass.data[DOMAIN]["ip_address"]["scan_interval"] = scan_interval
+
+    # Registrar el dispositivo
+    device_registry = await hass.helpers.device_registry.async_get_registry()
+    device_registry.async_get_or_create(
+        config_entry_id=entry.entry_id,
+        connections={(DOMAIN, entry.data["ip_address"])},
+        identifiers={(DOMAIN, entry.entry_id)},
+        manufacturer="Habibi",
+        name="Toldo",
+        model="Modelo 1",
+        sw_version="1.0"
+    )
+
     """hass.async_create_task(hass.config_entries.async_forward_entry_setup(entry, "sensor"))"""
     return True
 
