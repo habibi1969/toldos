@@ -1,32 +1,34 @@
-import logging
 from homeassistant.helpers.entity import Entity
+from .device import MiDispositivoHTTP
+from .const import DOMAIN
 
-_LOGGER = logging.getLogger(__name__)
+async def async_setup_entry(hass, entry, async_add_entities):
+    """Set up the sensor platform."""
+    device = MiDispositivoHTTP(entry.data["host"], entry.data["endpoint"])
+    async_add_entities([MiDispositivoHTTPSensor(entry, device)])
 
-async def async_setup_entry(hass, entry, async_add_entities, discovery_info=None):
-    async_add_entities([Toldo(entry)])
+class MiDispositivoHTTPSensor(Entity):
+    """Representation of a Sensor."""
 
-class Toldo(Entity):
-    def __init__(self):
+    def __init__(self, entry, device):
+        """Initialize the sensor."""
+        self._entry = entry
+        self._device = device
+        self._name = "Mi Dispositivo HTTP Sensor"
         self._state = None
 
     @property
     def name(self):
         """Return the name of the sensor."""
-        return 'Toldo'
+        return self._name
 
     @property
     def state(self):
         """Return the state of the sensor."""
         return self._state
 
-    def update(self):
+    async def async_update(self):
         """Fetch new state data for the sensor."""
-        # Aquí es donde actualizarías el estado del sensor.
-        # Por ejemplo, podrías obtener datos de una API, un dispositivo local, etc.
-        self._state = obtener_datos_del_sensor()
-
-def obtener_datos_del_sensor():
-    """Ejemplo de función para obtener datos del sensor."""
-    # Simulación de datos de sensor
-    return 24
+        data = self._device.fetch_data()
+        # Assuming we want the first value of the first column as the state
+        self._state = data.iloc[0, 0]

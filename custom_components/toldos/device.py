@@ -1,24 +1,22 @@
-from homeassistant.helpers.entity import Entity
+import requests
+import pandas as pd
 
-class ToldoDevice(Entity):
-    """Representation de un Toldo Device."""
+class MiDispositivoHTTP:
+    """Representation of the HTTP device."""
 
-    def __init__(self, entry):
+    def __init__(self, host, endpoint):
         """Initialize the device."""
-        self._entry = entry
-        self._name = "Toldo"
-        self._state = None
+        self._host = host
+        self._endpoint = endpoint
 
-    @property
-    def name(self):
-        """Return the name of the device."""
-        return self._name
-
-    @property
-    def state(self):
-        """Return the state of the device."""
-        return self._state
-
-    async def async_update(self):
-        """Fetch new state data for the device."""
-        self._state = False  # Actualiza el estado con la lógica necesaria
+    def fetch_data(self):
+        """Fetch data from the device."""
+        url = f"http://{self._host}/{self._endpoint}"
+        response = requests.get(url)
+        response.raise_for_status()
+        
+        # Assuming the response content is in CSV format
+        csv_data = response.content.decode("utf-8")
+        data = pd.read_csv(pd.compat.StringIO(csv_data))
+        
+        return data
