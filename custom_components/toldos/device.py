@@ -1,7 +1,7 @@
 import requests
 import pandas as pd
 
-class MiDispositivoHTTP:
+class ToldoHTTP:
     """Representation of the HTTP device."""
 
     def __init__(self, host, endpoint):

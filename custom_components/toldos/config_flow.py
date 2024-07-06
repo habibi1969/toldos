@@ -2,15 +2,15 @@ from homeassistant import config_entries
 import voluptuous as vol
 from .const import DOMAIN
 
-class MiDispositivoHTTPConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for Mi Dispositivo HTTP."""
+class ToldoHTTPConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
+    """Handle a config flow for Toldo HTTP."""
 
     VERSION = 1
 
     async def async_step_user(self, user_input=None):
         """Handle the initial step."""
         if user_input is not None:
-            return self.async_create_entry(title="Mi Dispositivo HTTP", data=user_input)
+            return self.async_create_entry(title="Toldo HTTP", data=user_input)
 
         data_schema = vol.Schema({
             vol.Required("host"): str,

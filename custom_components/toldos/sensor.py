@@ -1,20 +1,20 @@
 from homeassistant.helpers.entity import Entity
-from .device import MiDispositivoHTTP
+from .device import ToldoHTTP
 from .const import DOMAIN
 
 async def async_setup_entry(hass, entry, async_add_entities):
     """Set up the sensor platform."""
-    device = MiDispositivoHTTP(entry.data["host"], entry.data["endpoint"])
-    async_add_entities([MiDispositivoHTTPSensor(entry, device)])
+    device = ToldoHTTP(entry.data["host"], entry.data["endpoint"])
+    async_add_entities([ToldoHTTPSensor(entry, device)])
 
-class MiDispositivoHTTPSensor(Entity):
+class ToldoHTTPSensor(Entity):
     """Representation of a Sensor."""
 
     def __init__(self, entry, device):
         """Initialize the sensor."""
         self._entry = entry
         self._device = device
-        self._name = "Mi Dispositivo HTTP Sensor"
+        self._name = "Toldo HTTP Sensor"
         self._state = None
 
     @property

@@ -3,11 +3,11 @@ from homeassistant.core import HomeAssistant
 from .const import DOMAIN
 
 async def async_setup(hass: HomeAssistant, config: dict):
-    """Set up the Mi Dispositivo HTTP component."""
+    """Set up the Toldo HTTP component."""
     return True
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
-    """Set up Mi Dispositivo HTTP from a config entry."""
+    """Set up Toldo HTTP from a config entry."""
     hass.data.setdefault(DOMAIN, {})
     hass.data[DOMAIN][entry.entry_id] = entry.data
 
