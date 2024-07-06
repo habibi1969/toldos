@@ -8,7 +8,7 @@ from .const import DOMAIN, CONF_IP_ADDRESS, CONF_PORT
 DATA_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_IP_ADDRESS, description={"suggested_value": "192.168.1."}): str,
-        vol.Required(PORT, description={"suggested_value": 80}): int,
+        vol.Required(CONF_PORT, description={"suggested_value": 80}): int,
     }
 )
 
