@@ -41,7 +41,7 @@ async def async_setup_entry(hass: HomeAssistant, entry):
 
     # Obtener las opciones del config entry
     scan_interval = entry.options.get("scan_interval", 10)
-    hass.data[DOMAIN]["ip_address"]["scan_interval"] = scan_interval
+    hass.data[DOMAIN]["scan_interval"] = scan_interval
 
     # Registrar el dispositivo
     device_registry = await hass.helpers.device_registry.async_get_registry()
