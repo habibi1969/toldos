@@ -12,7 +12,7 @@ DATA_SCHEMA = vol.Schema(
     }
 )
 
-@config_entries.HANDLERS.register(DOMAIN)(ToldoConfigFlow)
+@config_entries.HANDLERS.register(DOMAIN)
 class ToldoConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow para Toldos."""
     
