@@ -12,7 +12,7 @@ DATA_SCHEMA = vol.Schema(
     }
 )
 
-@config_entries.HANDLERS.register(DOMAIN)
+@config_entries.HANDLERS.register(DOMAIN)(ToldoConfigFlow)
 class ToldoConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow para Toldos."""
     
@@ -47,7 +47,7 @@ class ToldoConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     def _async_get_options_flow(self, config_entry):
         return ToldoOptionsFlowHandler(config_entry=config_entry)
 
-@config_entries.HANDLERS.register(DOMAIN)(ToldoConfigFlow)
+#@config_entries.HANDLERS.register(DOMAIN)(ToldoConfigFlow)
 class ToldoOptionsFlowHandler(config_entries.OptionsFlow):
     def __init__(self, config_entry: config_entries.ConfigEntry):
         self.config_entry = config_entry
