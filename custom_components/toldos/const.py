@@ -1,4 +1,4 @@
 DOMAIN = "toldos"
 NAME = "name"
-IP_ADDRESS = "ip_address"
+CONF_IP_ADDRESS = "ip_address"
 PORT = "port"

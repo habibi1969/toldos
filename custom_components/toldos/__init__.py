@@ -8,7 +8,7 @@ from homeassistant.const import CONF_IP_ADDRESS
 
 _LOGGER = logging.getLogger(__name__)
 
-from .const import DOMAIN, IP_ADDRESS
+from .const import DOMAIN
 
 PLATFORMS = ["sensor"]
 """["sensor", "switch", "number"]"""
@@ -36,8 +36,8 @@ async def async_setup_entry(hass: HomeAssistant, entry):
     for platform in PLATFORMS:
         await hass.config_entries.async_forward_entry_setup(entry, platform)
 
-    hass.data[DOMAIN][CONF_IP_ADDRESS] = entry.data[CONF_IP_ADDRESS]
-    CONF_IP_ADDRESS = entry.data[CONF_IP_ADDRESS]
+    hass.data[DOMAIN]["ip_address"] = entry.data[CONF_IP_ADDRESS]
+    ip_address = entry.data[CONF_IP_ADDRESS]
     
     """hass.async_create_task(hass.config_entries.async_forward_entry_setup(entry, "sensor"))"""
     return True

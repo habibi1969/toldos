@@ -2,9 +2,9 @@ import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.core import callback
 from homeassistant.core import HomeAssistant
-"""from homeassistant.const import CONF_IP_ADDRESS"""
+from homeassistant.const import CONF_IP_ADDRESS
 
-from .const import DOMAIN, NAME, CONF_IP_ADDRESS, PORT
+from .const import DOMAIN, NAME, PORT
 
 DATA_SCHEMA = vol.Schema(
     {
