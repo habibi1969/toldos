@@ -3,8 +3,8 @@ from homeassistant.helpers.entity import Entity
 
 _LOGGER = logging.getLogger(__name__)
 
-async def async_setup_entry(hass, async_add_entities, discovery_info=None):
-    async_add_entities([Toldo()])
+async def async_setup_entry(hass, entry, async_add_entities, discovery_info=None):
+    async_add_entities([Toldo(entry)])
 
 class Toldo(Entity):
     def __init__(self):
