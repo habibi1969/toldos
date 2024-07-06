@@ -1,6 +1,6 @@
 from homeassistant import config_entries
 import voluptuous as vol
-from .const import DOMAIN, CONF_DEVICES, CONF_NAME, CONF_HOST, CONF_ENDPOINT
+from .const import DOMAIN, CONF_NAME, CONF_HOST, CONF_ENDPOINT
 
 class MiDispositivoHTTPConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Mi Dispositivo HTTP."""
