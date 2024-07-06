@@ -1,5 +1,6 @@
 import requests
 import pandas as pd
+import io
 
 class ToldoHTTP:
     """Representation of the HTTP device."""
@@ -17,6 +18,6 @@ class ToldoHTTP:
         
         # Assuming the response content is in CSV format
         csv_data = response.content.decode("utf-8")
-        data = pd.read_csv(pd.compat.StringIO(csv_data))
+        data = pd.read_csv(io.StringIO(csv_data))
         
         return data
