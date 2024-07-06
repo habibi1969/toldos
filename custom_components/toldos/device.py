@@ -2,7 +2,7 @@ import requests
 import pandas as pd
 import io
 
-class MiDispositivoHTTP:
+class ToldoHTTP:
     """Representation of the HTTP device."""
 
     def __init__(self, host, endpoint):
@@ -21,3 +21,4 @@ class MiDispositivoHTTP:
         data = pd.read_csv(io.StringIO(csv_data))
         
         return data
+        
