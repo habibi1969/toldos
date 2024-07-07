@@ -7,25 +7,29 @@ class ToldoHTTPConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     VERSION = 1
 
+    _instance = None
+
     def __init__(self):
-        self.devices = []
+        if ToldoHTTPConfigFlow._instance is None:
+            ToldoHTTPConfigFlow._instance = self
+
+    @classmethod
+    def async_get_options_flow(cls, config_entry):
+        if cls._instance is not None:
+            return cls._instance._async_get_options_flow(config_entry)
+        else:
+            return ToldoHTTPOptionsFlowHandler(config_entry=config_entry)
 
     async def async_step_user(self, user_input=None):
-        """Handle the initial step."""
         if user_input is not None:
-            self.devices.append(user_input)
-            return self.async_show_form(
-                step_id="add_another_device",
-                data_schema=vol.Schema({}),
-                description_placeholders={
-                    "message": "Device added. Would you like to add another?"
-                }
-            )
+            await self.async_set_unique_id(user_input[CONF_NAME])
+            self._abort_if_unique_id_configured()
+            return self.async_create_entry(title=user_input[CONF_NAME], data=user_input)
 
         data_schema = vol.Schema({
-            vol.Required(CONF_NAME): str,
-            vol.Required(CONF_HOST): str,
-            vol.Required(CONF_ENDPOINT): str
+            vol.Required(CONF_DEVICES, description={"suggested_value": "Toldo "}): str   #,
+            #vol.Required(CONF_HOST): str,
+            #vol.Required(CONF_ENDPOINT): str
         })
 
         return self.async_show_form(
@@ -65,3 +69,24 @@ class ToldoHTTPConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             data_schema=options_schema
         )
         
+class ToldoHTTPOptionsFlowHandler(config_entries.OptionsFlow):
+    def __init__(self, config_entry: config_entries.ConfigEntry):
+        self.config_entry = config_entry
+        self.current_host = config_entry.options.get(CONF_HOST, "192.168.1.")
+        self.current_endpoint = config_entry.options.get(CONF_ENDPOINT, "gpio/refresh")
+
+    async def async_step_init(self, user_input=None):
+        if user_input is not None:
+            return self.async_create_entry(title="", data=user_input)
+
+        options_schema = vol.Schema(
+            {
+                vol.Required(CONF_HOST, description={"suggested_value": self.current_host}): str,
+                vol.Optional(CONF_ENDPOINT, description={"suggested_value": self.current_endpoint}): str
+            }
+        )
+
+        return self.async_show_form(
+            step_id="init", data_schema=options_schema
+        )
+      

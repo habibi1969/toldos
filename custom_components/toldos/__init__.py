@@ -33,4 +33,4 @@ async def async_update_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Update the config entry when options are changed."""
     await async_unload_entry(hass, entry)
     await async_setup_entry(hass, entry)
-    
+       

@@ -8,7 +8,8 @@ async def async_setup_entry(hass, entry, async_add_entities):
     entities = []
     for device in devices:
         http_device = ToldoHTTP(device[CONF_HOST], device[CONF_ENDPOINT])
-        entities.append(ToldoHTTPSensor(device[CONF_NAME], http_device))
+        entities.append(ToldoHTTPSensor(device[CONF_DEVICES], http_device))
+    
     async_add_entities(entities)
 
 class ToldoHTTPSensor(Entity):
