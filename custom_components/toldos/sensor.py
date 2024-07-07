@@ -1,5 +1,5 @@
 from homeassistant.helpers.entity import Entity
-from .device import MiDispositivoHTTP
+from .device import ToldoHTTP
 from .const import DOMAIN, CONF_DEVICES, CONF_HOST, CONF_ENDPOINT, CONF_NAME
 
 async def async_setup_entry(hass, entry, async_add_entities):
@@ -7,11 +7,11 @@ async def async_setup_entry(hass, entry, async_add_entities):
     devices = entry.data[CONF_DEVICES]
     entities = []
     for device in devices:
-        http_device = MiDispositivoHTTP(device[CONF_HOST], device[CONF_ENDPOINT])
-        entities.append(MiDispositivoHTTPSensor(device[CONF_NAME], http_device))
+        http_device = ToldoHTTP(device[CONF_HOST], device[CONF_ENDPOINT])
+        entities.append(ToldoHTTPSensor(device[CONF_NAME], http_device))
     async_add_entities(entities)
 
-class MiDispositivoHTTPSensor(Entity):
+class ToldoHTTPSensor(Entity):
     """Representation of a Sensor."""
 
     def __init__(self, name, device):
@@ -43,4 +43,3 @@ class MiDispositivoHTTPSensor(Entity):
         self._state = data.iloc[0, 0]
         # Store the whole data as attributes for display
         self._attributes = data.to_dict(orient="list")
-        
