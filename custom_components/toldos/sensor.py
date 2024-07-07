@@ -1,5 +1,5 @@
 from homeassistant.helpers.entity import Entity
-from .device import ToldoHTTP
+from .device import ToldoHTTPDevice
 from .const import DOMAIN, CONF_NAME, CONF_HOST, CONF_ENDPOINT
 
 async def async_setup_entry(hass, entry, async_add_entities):
@@ -7,7 +7,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
     devices = entry.data[CONF_NAME]
     entities = []
     for device in devices:
-        http_device = ToldoHTTP(device[CONF_HOST], device[CONF_ENDPOINT])
+        http_device = ToldoHTTPDevice(device[CONF_HOST], device[CONF_ENDPOINT])
         entities.append(ToldoHTTPSensor(device[CONF_NAME], http_device))
     
     async_add_entities(entities)

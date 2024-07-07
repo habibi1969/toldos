@@ -27,7 +27,7 @@ class ToldoHTTPConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             return self.async_create_entry(title=user_input[CONF_NAME], data=user_input)
 
         data_schema = vol.Schema({
-            vol.Required(CONF_NAME, description={"suggested_value": "Toldo "}): str   #,
+            vol.Required(CONF_NAME, description={"suggested_value": "Toldo "}): int   #,
             #vol.Required(CONF_HOST): str,
             #vol.Required(CONF_ENDPOINT): str
         })
