@@ -2,6 +2,11 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from .const import DOMAIN, PLATFORMS, CONF_NAME, CONF_HOST, CONF_ENDPOINT
 
+import logging
+
+_LOGGER = logging.getLogger(__name__)
+_LOGGER.error("Inicia el __init__")
+
 async def async_setup(hass: HomeAssistant, config: dict):
     """Set up the Mi Dispositivo HTTP component."""
     return True
@@ -17,7 +22,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
             hass.config_entries.async_forward_entry_setup(entry, platform)
         )
 
-    entry.add_update_listener(async_update_entry)
+    entry.async_on_unload(entry.add_update_listener(async_update_entry))
 
     return True
 

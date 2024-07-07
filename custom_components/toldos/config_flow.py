@@ -2,6 +2,11 @@ from homeassistant import config_entries
 import voluptuous as vol
 from .const import DOMAIN, CONF_NAME, CONF_HOST, CONF_ENDPOINT
 
+import logging
+
+_LOGGER = logging.getLogger(__name__)
+_LOGGER.error("Inicia el config_flow")
+
 class ToldoHTTPConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Mi Dispositivo HTTP."""
 
