@@ -2,16 +2,13 @@ from homeassistant.helpers.entity import Entity
 from .device import ToldoHTTPDevice
 from .const import DOMAIN, CONF_NAME, CONF_HOST, CONF_ENDPOINT
 
-<<<<<<< HEAD
 import logging
 
 _LOGGER = logging.getLogger(__name__)
 _LOGGER.error("Inicia el sensor")
 
 async def async_setup_entry(hass, entry, async_add_entities):
-=======
-async def async_setup_entry(hass, entry, async_add_entities):
->>>>>>> 12cb7e08c7f7cea66f8778a5329eb20d8cda0988
+
     """Set up the sensor platform."""
     devices = entry.data[CONF_NAME]
     hass._data_key = data_key
