@@ -9,10 +9,12 @@ _LOGGER.error("Inicia el __init__")
 
 async def async_setup(hass: HomeAssistant, config: dict):
     """Set up the Mi Dispositivo HTTP component."""
+    _LOGGER.error("async_setup")
     return True
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Set up Mi Dispositivo HTTP from a config entry."""
+    _LOGGER.error("async_setup_entry")
     hass.data.setdefault(DOMAIN, {})
     hass.data[DOMAIN][entry.entry_id] = entry.data
 
@@ -28,6 +30,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Unload a config entry."""
+    _LOGGER.error("async_unload_entry")
     for platform in PLATFORMS:
         await hass.config_entries.async_forward_entry_unload(entry, platform)
     hass.data[DOMAIN].pop(entry.entry_id)
@@ -36,6 +39,7 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
 
 async def async_update_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Update the config entry when options are changed."""
+    _LOGGER.error("async_update_entry")
     await async_unload_entry(hass, entry)
     await async_setup_entry(hass, entry)
        
