@@ -1,6 +1,6 @@
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
-from .const import DOMAIN, PLATFORMS, CONF_DEVICES, CONF_HOST, CONF_ENDPOINT, CONF_NAME
+from .const import DOMAIN, PLATFORMS, CONF_NAME, CONF_HOST, CONF_ENDPOINT
 
 async def async_setup(hass: HomeAssistant, config: dict):
     """Set up the Mi Dispositivo HTTP component."""

@@ -1,6 +1,6 @@
 from homeassistant import config_entries
 import voluptuous as vol
-from .const import DOMAIN, CONF_DEVICES, CONF_NAME, CONF_HOST, CONF_ENDPOINT
+from .const import DOMAIN, CONF_NAME, CONF_HOST, CONF_ENDPOINT
 
 class ToldoHTTPConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Mi Dispositivo HTTP."""
@@ -27,7 +27,7 @@ class ToldoHTTPConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             return self.async_create_entry(title=user_input[CONF_NAME], data=user_input)
 
         data_schema = vol.Schema({
-            vol.Required(CONF_DEVICES, description={"suggested_value": "Toldo "}): str   #,
+            vol.Required(CONF_NAME, description={"suggested_value": "Toldo "}): str   #,
             #vol.Required(CONF_HOST): str,
             #vol.Required(CONF_ENDPOINT): str
         })
@@ -45,9 +45,8 @@ class ToldoHTTPConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             return self.async_create_entry(
                 title="Devices Configuration",
-                data={CONF_DEVICES: self.devices}
+                data={CONF_NAME: self.devices}
             )
-
         return await self.async_step_user()
 
     async def async_step_import(self, user_input=None):
@@ -61,7 +60,7 @@ class ToldoHTTPConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         devices = self.devices if self.devices else []
         options_schema = vol.Schema({
-            vol.Required(CONF_DEVICES, default=devices): list
+            vol.Required(CONF_NAME, default=devices): list
         })
 
         return self.async_show_form(
