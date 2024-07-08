@@ -1,4 +1,5 @@
 DOMAIN = "toldos"
-NAME = "name"
-CONF_IP_ADDRESS = "ip_address"
-PORT = "port"
+PLATFORMS = ["sensor"]
+CONF_NAME = "name"
+CONF_HOST = "host"
+CONF_ENDPOINT = "endpoint"

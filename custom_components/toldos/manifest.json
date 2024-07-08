@@ -8,9 +8,6 @@
   "config_flow": true,
   "iot_class": "local_polling",
   "quality_scale": "internal",
-  "requirements": ["aiohttp", "tenacity"],
-  "dependencies": [],
-  "homekit": {},
-  "ssdp": [],
-  "zeroconf": []
+  "requirements": ["requests", "pandas"],
+  "dependencies": []
 }

@@ -1,50 +1,45 @@
-"""The toldos component."""
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.core import HomeAssistant
+from .const import DOMAIN, PLATFORMS, CONF_NAME, CONF_HOST, CONF_ENDPOINT
+
 import logging
-import aiohttp
-from homeassistant.config_entries import SOURCE_IMPORT
-"""from homeassistant.config_entries import ConfigEntry"""
-from homeassistant.core import HomeAssistant, ServiceCall
-from homeassistant.const import CONF_IP_ADDRESS
 
 _LOGGER = logging.getLogger(__name__)
-
-from .const import DOMAIN
-
-PLATFORMS = ["sensor"]
-"""["sensor", "switch", "number"]"""
+_LOGGER.error("Inicia el __init__")
 
 async def async_setup(hass: HomeAssistant, config: dict):
-    """Set up the integration using YAML."""
-    _LOGGER.info("Configurando Toldos")
-    
+    """Set up the Mi Dispositivo HTTP component."""
+    _LOGGER.error("async_setup")
+    return True
+
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
+    """Set up Mi Dispositivo HTTP from a config entry."""
+    _LOGGER.error("async_setup_entry")
     hass.data.setdefault(DOMAIN, {})
-    if DOMAIN not in config:
-        return True
+    hass.data[DOMAIN][entry.entry_id] = entry.data
 
-    for entry_config in config[DOMAIN]:
-        hass.async_create_task(
-            hass.config_entries.flow.async_init(
-                DOMAIN, context={"source": SOURCE_IMPORT}, data=entry_config
-            )
-        )
-    return True
-
-async def async_setup_entry(hass: HomeAssistant, entry):
-    """Set up the integration using UI."""
-    _LOGGER.info("Configurando Toldos desde una entrada de configuración")
-    
+    # Set up platforms (e.g., sensor)
     for platform in PLATFORMS:
-        await hass.config_entries.async_forward_entry_setup(entry, platform)
+        hass.async_create_task(
+            hass.config_entries.async_forward_entry_setup(entry, platform)
+        )
 
-    hass.data[DOMAIN]["ip_address"] = entry.data[CONF_IP_ADDRESS]
-    ip_address = entry.data[CONF_IP_ADDRESS]
-    
-    """hass.async_create_task(hass.config_entries.async_forward_entry_setup(entry, "sensor"))"""
+    entry.async_on_unload(entry.add_update_listener(async_update_entry))
+
     return True
 
-async def async_unload_entry(hass: HomeAssistant, entry):
+async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Unload a config entry."""
-    _LOGGER.info("Descargando Toldos")
-    """return await hass.config_entries.async_forward_entry_unload(entry, "sensor")"""
-    return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
-    
+    _LOGGER.error("async_unload_entry")
+    for platform in PLATFORMS:
+        await hass.config_entries.async_forward_entry_unload(entry, platform)
+    hass.data[DOMAIN].pop(entry.entry_id)
+
+    return True
+
+async def async_update_entry(hass: HomeAssistant, entry: ConfigEntry):
+    """Update the config entry when options are changed."""
+    _LOGGER.error("async_update_entry")
+    await async_unload_entry(hass, entry)
+    await async_setup_entry(hass, entry)
+       
