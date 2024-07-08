@@ -61,13 +61,14 @@ class ToldoOptionsFlowHandler(config_entries.OptionsFlow):
         if user_input is not None:
             return self.async_create_entry(title=self.current_name, data=user_input)
 
-        options_schema = vol.Schema(
+        OPTIONS_SCHEMA = vol.Schema(
             {
+                vol.
                 vol.Required(CONF_IP_ADDRESS, description={"suggested_value": self.current_ip}): str,
                 vol.Required(PORT, description={"suggested_value": self.current_port}): vol.Coerce(int),
             }
         )
 
         return self.async_show_form(
-            step_id="init", data_schema=options_schema
+            step_id="init", data_schema=OPTIONS_SCHEMA
         )
