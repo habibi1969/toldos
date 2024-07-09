@@ -85,8 +85,8 @@ class ToldoHTTPOptionsFlowHandler(config_entries.OptionsFlow):
 
         OPTIONS_SCHEMA = vol.Schema(
             {
-                vol.Required(CONF_IP_ADDRESS, description={"suggested_value": self.current_ip}): str,
-                vol.Required(PORT, description={"suggested_value": self.current_port}): vol.Coerce(int),
+                vol.Required(CONF_HOST, description={"suggested_value": self.current_ip}): str,
+                vol.Required(CONF_ENDPOINT, description={"suggested_value": self.current_port}): str,
             }
         )
 
